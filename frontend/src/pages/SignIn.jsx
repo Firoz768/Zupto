@@ -8,6 +8,8 @@ import { auth } from "../../firebase";
 import { serverUrl } from "../App";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice.js";
 function SignIn() {
   const primaryColor = "#ff4d2d";
   const bgColor = "#fff9f6";
@@ -18,6 +20,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     setLoading(true);
@@ -30,7 +33,7 @@ function SignIn() {
         },
         { withCredentials: true }
       );
-      console.log(result);
+      dispatch(setUserData(result.data));
       setErr("");
       setLoading(false);
     } catch (error) {
@@ -49,7 +52,7 @@ function SignIn() {
         },
         { withCredentials: true }
       );
-      console.log(data);
+      dispatch(setUserData(data));
     } catch (error) {
       console.log(error);
     }
